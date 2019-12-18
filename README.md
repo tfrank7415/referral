@@ -1,5 +1,9 @@
 # Referral
 
+# Purpose
+
+This project is to allow people to capitalize on their company's referral program.  We could all use some extra $$.
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.20.
 
 ## Development server
