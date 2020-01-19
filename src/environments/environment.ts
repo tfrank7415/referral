@@ -4,6 +4,17 @@
 
 export const environment = {
   production: false,
+
+  firebaseConfig: {
+    apiKey: 'AIzaSyAUq_ucCw4dQYuLCT5fXEGTEMYTHimSrKs',
+    authDomain: 'referral-36505.firebaseapp.com',
+    databaseURL: 'https://referral-36505.firebaseio.com',
+    projectId: 'referral-36505',
+    storageBucket: 'referral-36505.appspot.com',
+    messagingSenderId: '156054158763',
+    appId: '1:156054158763:web:09172b157944c7cd7e26ee',
+    measurementId: 'G-0JKP565468'
+  }
 };
 
 /*
