@@ -1,25 +1,30 @@
+<!-- Displays all referrals on the home page -->
 <div class="container" id="feedContainer">
-    <button class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Create Referral</button>
+    <button class="btn btn-outline" color="primary" data-toggle="modal" data-target="#createReferralModal" style="margin-bottom: 5px;">Create Referral</button>
     <mat-card style="margin-bottom: 5px;" *ngFor='let post of posts'>
         <mat-card-header>
-            <mat-card-title style="margin-left: -20px;">{{ post.title }}<mat-divider></mat-divider></mat-card-title>
-            <mat-card-subtitle style="margin-left: -20px;">{{ post.location }}</mat-card-subtitle>
+            <mat-card-title style="margin-left: -20px;"><b>Job Title:</b> {{ post.title }}<mat-divider></mat-divider></mat-card-title>
+            <!-- <mat-card-subtitle style="margin-left: -20px;">Location: {{ post.location }}</mat-card-subtitle> -->
         </mat-card-header>
         <mat-card-content>
-            <h6>Description:</h6>
-            <p>{{ post.description }}</p>
-            <a data-toggle="collapse" href="#commentsCollapse" role="button" aria-expanded="false" aria-controls="commentsCollapse">Comments</a>
+            <p>Location: {{ post.location }} <br>
+                Description: {{ post.description }}
+            </p>
+            <a data-toggle="collapse" href="#commentsCollapse" role="button" aria-expanded="false" aria-controls="commentsCollapse"> View Comments</a>
             <div class="collapse" id="commentsCollapse">
                 <p>Comments: Blah Blah Blah</p>
             </div>
+            <p hidden id="postKey">{{ post.key }}</p>
         </mat-card-content>
         <mat-card-actions>
-             Add buttons like like or comment 
+             <button class="btn btn-outline" data-toggle="modal" data-target="#addCommentModal" (click)="addKeyToCreateForm()">Add Comment</button>
         </mat-card-actions>
     </mat-card>
 </div>
 
-<div class="modal" tabindex="-1" role="dialog" id="exampleModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+<!-- Form used for users to create a new referral -->
+<div class="modal" tabindex="-1" role="dialog" id="createReferralModal" aria-labelledby="createReferralModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <form [formGroup]="createReferralForm" (ngSubmit)="onSubmit()">
       <div class="modal-content">
@@ -60,6 +65,38 @@
                         <textarea id="description" class="form-control" type="text" formControlName="description"></textarea>
                     </div>
             </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-primary">Create</button>
+        </div>
+      </div>
+    </form>
+    </div>
+</div>
+
+<div class="modal" tabindex="-1" role="dialog" id="addCommentModal" aria-labelledby="addCommentModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+    <form [formGroup]="addCommentForm" (ngSubmit)="onSubmitAddComment()">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Add comment</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+              <div class="form-row" style="width: 100%;">
+                  <div class="form-group" style="width: inherit;">
+                      <label>Comment:</label>
+                      <input type="text" id="comment" formControlName="comment" class="form-control" >
+                  </div>
+              </div>
+              <!-- <div class="form-row">
+                  <div class="form-group" style="width: 100%;">
+                    <input id="postKey" class="form-control" hidden type="text" formControlName="postKey">
+                </div> 
+            </div>-->
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>

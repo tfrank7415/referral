@@ -8,51 +8,33 @@ import { map } from 'rxjs/operators';
     providedIn: 'root'
 })
 export class PostService {
-    private dbPath = '/posts';
-    PostsForHomePage: Posts[];
-    postsRef: AngularFireList<Posts> = null;
-    postsList: Observable<any>;
+
+    postsRef: AngularFireList<any>;
+    commentsRef: AngularFireList<any>;
+    postsList: Observable<any[]>;
+
 
     constructor(private db: AngularFireDatabase) {
+        this.postsRef = db.list('posts');
+        this.commentsRef = db.list('comments');
     }
 
-    getPosts(): Posts[] {
-        return [
-            {
-                key: '1',
-                location: 'San Antonio, TX',
-                title: '.Net Core developer',
-                description: 'Job duties, tasks, responsibilities, etc...',
-                company: 'SAIC',
-                datePosted: '12/21/2019'
-            },
-            {
-                key: '2',
-                location: 'Huntsville, AL',
-                title: '.Net Core developer',
-                description: 'Job duties, tasks, responsibilities, etc...',
-                company: 'Leidos',
-                datePosted: '12/21/2019'
-            }
-        ];
-    }
-    // The below returns data from firebase database
+    // The below returns data from firebase and adds the key to the observable being returned
     getPostsFromFirebase(): Observable<any> {
-        this.postsList =  this.db.list('/posts').valueChanges();
-        return this.postsList;
-    }
-
-    getPostsFromFirebaseTest(): Observable<any[]> {
-        return this.db.list('/posts').valueChanges();
+        return this.postsList = this.postsRef.snapshotChanges().pipe(
+            map(changes =>
+                changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))
+            )
+        );
     }
 
     addPostsToFirebase() {
         this.db.database.ref('posts/').push({
             location: 'Arkansas'
         });
-      }
+    }
 
-      addNewReferralToFirebase(createReferralForm: any) {
+    addNewReferralToFirebase(createReferralForm: any) {
         this.db.database.ref('posts/').push({
             location: createReferralForm.location,
             title: createReferralForm.title,
@@ -60,5 +42,9 @@ export class PostService {
             company: createReferralForm.company,
             datePosted: createReferralForm.datePosted
         });
-      }
+    }
+
+    addNewComment(postKey: string, value: any) {
+        this.commentsRef.push({ postId: postKey, comment: value });
+    }
 }

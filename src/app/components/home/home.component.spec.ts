@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { MatDividerModule } from '@angular/material/divider';
 import { HomeComponent } from './home.component';
+import { MatCardModule } from '@angular/material/card';
+import { FormBuilder } from '@angular/forms';
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
@@ -8,6 +10,11 @@ describe('HomeComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [
+        MatDividerModule,
+        MatCardModule,
+        FormBuilder
+      ],
       declarations: [ HomeComponent ]
     })
     .compileComponents();
