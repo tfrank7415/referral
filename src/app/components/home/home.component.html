@@ -10,9 +10,9 @@
             <p>Location: {{ post.location }} <br>
                 Description: {{ post.description }}
             </p>
-            <a data-toggle="collapse" href="#commentsCollapse" role="button" aria-expanded="false" aria-controls="commentsCollapse"> View Comments</a>
+            <a data-toggle="collapse" href="#commentsCollapse" (click)="onClickRetriveComments()" role="button" aria-expanded="false" aria-controls="commentsCollapse"> View Comments</a>
             <div class="collapse" id="commentsCollapse">
-                <p>Comments: Blah Blah Blah</p>
+                <p *ngFor='let comment of comments'>Comment: {{ comment.comment }}</p>
             </div>
             <p hidden id="postKey">{{ post.key }}</p>
         </mat-card-content>

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Posts } from 'src/app/models/posts';
 import {AngularFireDatabase, AngularFireList, AngularFireObject} from '@angular/fire/database';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 
 @Injectable ({
     providedIn: 'root'
@@ -12,6 +12,8 @@ export class PostService {
     postsRef: AngularFireList<any>;
     commentsRef: AngularFireList<any>;
     postsList: Observable<any[]>;
+    commentsList: Observable<any[]>;
+    commentsListForQuerying: Observable<any[]>;
 
 
     constructor(private db: AngularFireDatabase) {
@@ -44,7 +46,26 @@ export class PostService {
         });
     }
 
-    addNewComment(postKey: string, value: any) {
+    addNewComment(postKey: any, value: any) {
         this.commentsRef.push({ postId: postKey, comment: value });
+    }
+
+    getCommentsForPost(postKey: any): Observable<any> {
+        this.getCommentsForPostTestQuery();
+        return this.commentsList = this.commentsRef.snapshotChanges().pipe(
+            map(changes =>
+                changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))
+            )
+        );
+    }
+
+    // The below is the query to return the comment with the associated post id
+    getCommentsForPostTestQuery(): Observable<any> {
+        return this.db.list('comments', ref => ref.orderByKey().equalTo('-Lz35jJcpTRYQRgQWaIR')).snapshotChanges()
+            .pipe(
+                map(changes =>
+                    changes.map(c => ({ data: c.payload.val() }))
+                )
+            );
     }
 }

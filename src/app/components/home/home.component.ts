@@ -15,6 +15,7 @@ import { CompileShallowModuleMetadata } from '@angular/compiler';
 export class HomeComponent implements OnInit {
 
   posts: any[];
+  comments: any[];
   testPosts: Posts[];
   testObjects: AngularFireObject<any>;
   createReferralForm;
@@ -59,5 +60,16 @@ export class HomeComponent implements OnInit {
 
   addKeyToCreateForm() {
     this.postKey = document.getElementById('postKey').innerHTML;
+  }
+
+  onClickRetriveComments() {
+    this.postKey = document.getElementById('postKey').innerHTML;
+    // this.postService.getCommentsForPost(this.postKey).subscribe((c) => {
+    //   this.comments = c;
+    // });
+    this.postService.getCommentsForPostTestQuery().subscribe((c) => {
+      this.comments = c;
+      console.log(this.comments);
+    });
   }
 }
