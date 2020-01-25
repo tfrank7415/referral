@@ -47,7 +47,6 @@ export class HomeComponent implements OnInit {
 
   onSubmit() {
     this.postService.addNewReferralToFirebase(this.createReferralForm.value);
-    console.log(this.createReferralForm.value);
   }
 
   public addPost() {
@@ -58,18 +57,19 @@ export class HomeComponent implements OnInit {
     this.postService.addNewComment(this.postKey, this.addCommentForm.value.comment);
   }
 
-  addKeyToCreateForm() {
-    this.postKey = document.getElementById('postKey').innerHTML;
+  addKeyToCreateForm(i) {
+    this.postKey = document.getElementById('postKey_' + i).innerHTML;
   }
 
-  onClickRetriveComments() {
-    this.postKey = document.getElementById('postKey').innerHTML;
-    // this.postService.getCommentsForPost(this.postKey).subscribe((c) => {
-    //   this.comments = c;
-    // });
-    this.postService.getCommentsForPostTestQuery().subscribe((c) => {
+  onClickRetriveComments(i) {
+    // Clears array of comments
+    this.comments = [];
+    this.postKey = document.getElementById('postKey_' + i).innerHTML;
+    this.postService.getCommentsForPostTestQuery(this.postKey).subscribe((c) => {
       this.comments = c;
-      console.log(this.comments);
     });
+  }
+
+  onClickOutside(e: Event) {
   }
 }

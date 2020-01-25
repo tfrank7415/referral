@@ -51,7 +51,7 @@ export class PostService {
     }
 
     getCommentsForPost(postKey: any): Observable<any> {
-        this.getCommentsForPostTestQuery();
+        this.getCommentsForPostTestQuery(postKey);
         return this.commentsList = this.commentsRef.snapshotChanges().pipe(
             map(changes =>
                 changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))
@@ -60,8 +60,9 @@ export class PostService {
     }
 
     // The below is the query to return the comment with the associated post id
-    getCommentsForPostTestQuery(): Observable<any> {
-        return this.db.list('comments', ref => ref.orderByKey().equalTo('-Lz35jJcpTRYQRgQWaIR')).snapshotChanges()
+    // Add the comment Id to the the posts field.  This will allow the below query to work.
+    getCommentsForPostTestQuery(postKey: any): Observable<any> {
+        return this.db.list('comments', ref => ref.orderByChild('postId').equalTo(postKey)).snapshotChanges()
             .pipe(
                 map(changes =>
                     changes.map(c => ({ data: c.payload.val() }))
