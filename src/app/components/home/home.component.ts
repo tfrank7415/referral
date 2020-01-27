@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 import { PostService } from './PostService';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -21,6 +21,8 @@ export class HomeComponent implements OnInit {
   createReferralForm;
   addCommentForm;
   postKey;
+  @ViewChild('closeBtnCommentModal', {static: false}) closeBtnCommentModal: ElementRef;
+  @ViewChild('closeBtnReferralModal', {static: false}) closeBtnReferralModal: ElementRef;
 
   constructor(
     private postService: PostService,
@@ -47,14 +49,17 @@ export class HomeComponent implements OnInit {
 
   onSubmit() {
     this.postService.addNewReferralToFirebase(this.createReferralForm.value);
+    this.closeBtnReferralModal.nativeElement.click();
   }
 
   public addPost() {
     this.postService.addPostsToFirebase();
+
   }
 
   onSubmitAddComment() {
     this.postService.addNewComment(this.postKey, this.addCommentForm.value.comment);
+    this.closeBtnCommentModal.nativeElement.click();
   }
 
   addKeyToCreateForm(i) {
@@ -68,8 +73,5 @@ export class HomeComponent implements OnInit {
     this.postService.getCommentsForPostTestQuery(this.postKey).subscribe((c) => {
       this.comments = c;
     });
-  }
-
-  onClickOutside(e: Event) {
   }
 }
