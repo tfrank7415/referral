@@ -3,22 +3,24 @@
     <button class="btn btn-outline" data-toggle="modal" data-target="#createReferralModal" style="margin-bottom: 5px;">Create Referral</button>
     <mat-card *ngFor='let post of posts, let i = index'>
         <mat-card-header>
-            <mat-card-title style="margin-left: -20px;"><b>Job Title:</b> {{ post.title }}<mat-divider></mat-divider></mat-card-title>
-            <!-- <mat-card-subtitle style="margin-left: -20px;">Location: {{ post.location }}</mat-card-subtitle> -->
+            <mat-card-title style="margin-left: -20px;"><b>Job Title:</b> {{ post.title }}</mat-card-title>
+
         </mat-card-header>
         <mat-card-content>
-            <p>Location: {{ post.location }} <br>
-                Description: {{ post.description }}
+            <p>
+              Date Posted: {{ post.datePosted }} <br>
+              Location: {{ post.location }} <br>
+              Company: {{ post.company }}<br>
+              Type: <br>
+              Description: {{ post.description }}
             </p>
-            <a data-toggle="collapse" href="#commentsCollapse_{{i}}" (click)="onClickRetriveComments(i)" role="button" aria-expanded="false" aria-controls="commentsCollapse"> View Comments</a>
+            <a data-toggle="collapse" href="#commentsCollapse_{{i}}" (click)="onClickRetriveComments(i)" role="button" aria-expanded="false" aria-controls="commentsCollapse">Comments</a> |
+            <a data-toggle="modal" data-target="#addCommentModal" href="#" (click)="addKeyToCreateForm(i)" role="button" aria-expanded="false" aria-controls="commentsCollapse"> Add Comment</a>
             <div class="collapse" id="commentsCollapse_{{i}}">
                 <p *ngFor='let comment of comments'>Comment: {{ comment.data.comment }}</p>
             </div>
             <p hidden id="postKey_{{i}}">{{ post.key }}</p>
         </mat-card-content>
-        <mat-card-actions>
-             <button class="btn btn-outline" data-toggle="modal" data-target="#addCommentModal" (click)="addKeyToCreateForm(i)">Add Comment</button>
-        </mat-card-actions>
     </mat-card>
 </div>
 
@@ -55,8 +57,8 @@
             </div>
             <div class="form-row">
                     <div class="form-group" style="width: 100%;">
-                        <label for="datePosted">Start Date:</label>
-                        <input id="datePosted" class="form-control" type="text" formControlName="datePosted">
+                        <label for="startDate">Start Date:</label>
+                        <input id="startDate" class="form-control" type="text" formControlName="startDate">
                     </div>
             </div>
             <div class="form-row">
@@ -65,10 +67,16 @@
                         <textarea id="description" class="form-control" type="text" formControlName="description"></textarea>
                     </div>
             </div>
+            <div class="form-row">
+              <div class="form-group" hidden style="width: 100%;">
+                  <label for="datePosted">Date Posted:</label>
+                  <input id="datePosted" class="form-control" type="text" formControlName="datePosted">
+              </div>
+      </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal" #closeBtnReferralModal>Cancel</button>
-          <button type="submit" class="btn btn-primary" >Create</button>
+          <button type="submit" class="btn btn-primary" [disabled]="!createReferralForm.valid">Create</button>
         </div>
       </div>
     </form>

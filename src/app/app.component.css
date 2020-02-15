@@ -2,3 +2,7 @@
     background-color: #ff5722;
     margin-bottom: 5px;
 }
+
+.mat-toolbar-row {
+    padding: 0px;
+}

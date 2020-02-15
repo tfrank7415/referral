@@ -37,12 +37,20 @@ export class PostService {
     }
 
     addNewReferralToFirebase(createReferralForm: any) {
+        // Constructing date.
+        const day = new Date().getDate();
+        const month = new Date().getMonth() + 1;
+        const year = new Date().getFullYear();
+        const fullDate = month + '/' + day + '/' + year;
+
+        // Posting form values
         this.db.database.ref('posts/').push({
             location: createReferralForm.location,
             title: createReferralForm.title,
             description: createReferralForm.description,
             company: createReferralForm.company,
-            datePosted: createReferralForm.datePosted
+            datePosted: fullDate,
+            startDate: createReferralForm.startDate
         });
     }
 

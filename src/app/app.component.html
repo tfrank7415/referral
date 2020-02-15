@@ -1,6 +1,11 @@
 <div>
   <mat-toolbar>
     <mat-toolbar-row>
+      <button mat-button [matMenuTriggerFor]="menu"><i class="material-icons">menu</i></button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item routerLink="">Home</button>
+        <button mat-menu-item routerLink="about">About</button>
+      </mat-menu>
       Referral
       <!-- TODO: Add icon align right.  Add Login anchor tag alight left -->
     </mat-toolbar-row>

@@ -5,4 +5,5 @@ export class Posts {
     description: string;
     company: string;
     datePosted: string;
+    startDate: string;
 }

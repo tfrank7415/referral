@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AngularFireObject } from '@angular/fire/database/interfaces';
 import { Posts } from 'src/app/models/posts';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CompileShallowModuleMetadata } from '@angular/compiler';
 
 @Component({
@@ -29,10 +29,11 @@ export class HomeComponent implements OnInit {
     private formBuilder: FormBuilder
     ) {
       this.createReferralForm = this.formBuilder.group({
-        location: '',
-        title: '',
-        description: '',
-        company: '',
+        location: ['', Validators.required],
+        title: ['', Validators.required],
+        description: ['', Validators.required],
+        company: ['', Validators.required],
+        startDate: ['', Validators.required],
         datePosted: ''
       });
 
